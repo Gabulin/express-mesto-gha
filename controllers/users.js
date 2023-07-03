@@ -3,7 +3,7 @@ const {
   validationErrorCode,
   notFoundErrorCode,
   handleDefaultError,
-} = require('../utils/errorConstans');
+} = require('../utils/Constants');
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -23,7 +23,7 @@ module.exports.createUser = (req, res) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(validationErrorCode).send({
-          message: 'Переданы некорректные данные при создании пользователя.',
+          message: 'Некорректные данные для создания пользователя.',
         });
         return;
       }
@@ -41,10 +41,10 @@ module.exports.getUser = (req, res) => {
       if (err.message === 'NotFoundError') {
         res
           .status(notFoundErrorCode)
-          .send({ message: 'Пользователя с указанным _id не существует' });
+          .send({ message: 'Пользователь не найден' });
       } else if (err.name === 'CastError') {
         res.status(validationErrorCode).send({
-          message: 'Переданы некорректные данные.',
+          message: 'Некорректные данные.',
         });
       } else {
         handleDefaultError(err, res);
@@ -68,13 +68,13 @@ module.exports.updateProfile = (req, res) => {
     .catch((err) => {
       if (err.message === 'NotFoundError') {
         res.status(notFoundErrorCode).send({
-          message: 'Пользователь по указанному _id не найден.',
+          message: 'Пользователь не найден.',
         });
         return;
       }
       if (err.name === 'CastError') {
         res.status(validationErrorCode).send({
-          message: 'Переданы некорректные данные при обновлении профиля.',
+          message: 'Некорректные данные для обновления профиля.',
         });
         return;
       }
@@ -103,13 +103,13 @@ module.exports.updateAvatar = (req, res) => {
     .catch((err) => {
       if (err.message === 'NotFoundError') {
         res.status(notFoundErrorCode).send({
-          message: 'Пользователь по указанному _id не найден.',
+          message: 'Пользователь не найден.',
         });
         return;
       }
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         res.status(validationErrorCode).send({
-          message: 'Переданы некорректные данные при обновлении аватара.',
+          message: 'Некорректные данные для обновления аватара.',
         });
         return;
       }

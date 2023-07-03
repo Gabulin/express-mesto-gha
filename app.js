@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const bodyParser = require('body-parser');
-const { notFoundErrorCode } = require('./utils/errorConstans');
+const { notFoundErrorCode } = require('./utils/Constants');
 
 const { PORT = 3000 } = process.env;
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
@@ -22,7 +22,7 @@ app.use('/cards', require('./routes/cards'));
 app.use((req, res) => {
   res
     .status(notFoundErrorCode)
-    .send({ message: 'указанного пути не существует' });
+    .send({ message: 'Путь не найден' });
 });
 
 app.listen(PORT);

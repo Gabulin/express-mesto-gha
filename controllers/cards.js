@@ -3,7 +3,7 @@ const {
   validationErrorCode,
   notFoundErrorCode,
   handleDefaultError,
-} = require('../utils/errorConstans');
+} = require('../utils/Constants');
 
 module.exports.getCards = (req, res) => {
   Card.find({})
@@ -19,7 +19,7 @@ module.exports.createCard = (req, res) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(validationErrorCode).send({
-          message: 'Переданы некорректные данные при создании карточки.',
+          message: 'Неккоректные данные для новой карточки.',
         });
         return;
       }
@@ -33,16 +33,16 @@ module.exports.deleteCard = (req, res) => {
       throw new Error('NotFoundError');
     })
     .then(() => {
-      res.send({ message: 'успешно' });
+      res.send({ message: 'Удаление' });
     })
     .catch((err) => {
       if (err.message === 'NotFoundError') {
         res
           .status(notFoundErrorCode)
-          .send({ message: 'Передан несуществующий _id карточки.' });
+          .send({ message: 'Карточка не найдена.' });
       } else if (err.name === 'CastError') {
         res.status(validationErrorCode).send({
-          message: 'Переданы некорректные данные для удаления карточки.',
+          message: 'Некорректные данные для удаления карточки.',
         });
       } else {
         handleDefaultError(err, res);
@@ -66,10 +66,10 @@ module.exports.likeCard = (req, res) => {
       if (err.message === 'NotFoundError') {
         res
           .status(notFoundErrorCode)
-          .send({ message: 'Передан несуществующий _id карточки.' });
+          .send({ message: 'Карточка не найдена.' });
       } else if (err.name === 'CastError') {
         res.status(validationErrorCode).send({
-          message: 'Переданы некорректные данные для постановки/снятии лайка.',
+          message: 'Некорректные данные для лайка карточки.',
         });
       } else {
         handleDefaultError(err, res);
@@ -93,10 +93,10 @@ module.exports.dislikeCard = (req, res) => {
       if (err.message === 'NotFoundError') {
         res
           .status(notFoundErrorCode)
-          .send({ message: 'Передан несуществующий _id карточки.' });
+          .send({ message: 'Карточка не найдена.' });
       } else if (err.name === 'CastError') {
         res.status(validationErrorCode).send({
-          message: 'Переданы некорректные данные для постановки/снятии лайка.',
+          message: 'Некорректные данные для дизлайка.',
         });
       } else {
         handleDefaultError(err, res);
