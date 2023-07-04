@@ -1,5 +1,6 @@
 {
   "name": "express-mesto-gha",
+  "author": "Gabulin",
   "version": "1.0.0",
   "private": true,
   "main": "app.js",
