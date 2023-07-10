@@ -1,5 +1,6 @@
 {
   "name": "express-mesto-gha",
+  "author": "Gabulin",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -9,7 +10,6 @@
     "dev": "nodemon app.js",
     "start": "node app.js"
   },
-  "author": "AlexKosova",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^8.43.0",
