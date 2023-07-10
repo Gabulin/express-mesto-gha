@@ -6,7 +6,7 @@ const NotFoundError = require('../errors/NotFoundError');
 const InvalidError = require('../errors/InvalidError');
 const { JWT_KEY } = require('../utils/Constants');
 
-const getUsers = (req, res) => {
+const getUsers = (req, res, next) => {
   User.find({})
   .then((users) => res.send(users))
   .catch(next);
@@ -54,7 +54,7 @@ const login = (req, res, next) => {
     }).catch(next);
 };
 
-const getUserId = (req, res) => {
+const getUserId = (req, res, next) => {
   const { userId } = req.params;
   User.findById(userId)
   .then((user) => {
@@ -78,7 +78,7 @@ const getUser = (req, res, next) => {
     .catch(next);
 };
 
-const updateProfile = (req, res) => {
+const updateProfile = (req, res, next) => {
   const { _id } = req.user;
   const data = {
     name: req.body.name,
@@ -96,7 +96,7 @@ const updateProfile = (req, res) => {
     });
 };
 
-const updateAvatar = (req, res) => {
+const updateAvatar = (req, res, next) => {
   const { _id } = req.user;
   const data = { avatar: req.body.avatar };
   User.findByIdAndUpdate(_id, data, { runValidators: true, new: true })

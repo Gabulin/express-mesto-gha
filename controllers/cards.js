@@ -10,7 +10,7 @@ const createCard = (req, res, next) => {
     owner: req.user._id,
   };
   Card.create(newCard)
-    .then((card) => res.status(201).send({ data: card }))
+    .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === "ValidationError") {
         return next(new InvalidError("Некорректные данные для новой карточки"));
@@ -24,7 +24,7 @@ const getCards = (req, res, next) => {
     .catch(next);
 };
 
-const deleteCard = (req, res) => {
+const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
   const { _id } = req.user;
   Card.findById(cardId)
@@ -58,7 +58,7 @@ const likeCard = (req, res, next) => {
     .catch(next);
 };
 
-const dislikeCard = (req, res) => {
+const dislikeCard = (req, res, next) => {
   const { cardId } = req.params;
   Card.findByIdAndUpdate(
     cardId,
