@@ -3,7 +3,7 @@ const { celebrate, Joi } = require("celebrate");
 
 const {
   getUsers,
-  getUserById,
+  getUserId,
   updateProfile,
   updateAvatar,
   getUser,
@@ -18,7 +18,7 @@ userRouter.get(
       userId: Joi.string().length(24).hex(),
     }),
   }),
-  getUserById
+  getUserId
 );
 
 userRouter.patch(

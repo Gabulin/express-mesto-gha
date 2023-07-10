@@ -3,7 +3,7 @@ const InvalidError = require("../errors/InvalidError");
 const NotFoundError = require("../errors/NotFoundError");
 const ForbiddenError = require("../errors/ForbiddenError");
 
-module.exports.createCard = (req, res, next) => {
+const createCard = (req, res, next) => {
   const newCard = {
     name: req.body.name,
     link: req.body.link,
@@ -18,13 +18,13 @@ module.exports.createCard = (req, res, next) => {
       next(err);
     });
 };
-module.exports.getCards = (req, res, next) => {
+const getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send(cards))
     .catch(next);
 };
 
-module.exports.deleteCard = (req, res) => {
+const deleteCard = (req, res) => {
   const { cardId } = req.params;
   const { _id } = req.user;
   Card.findById(cardId)
@@ -42,7 +42,7 @@ module.exports.deleteCard = (req, res) => {
     .catch(next);
 };
 
-module.exports.likeCard = (req, res, next) => {
+const likeCard = (req, res, next) => {
   const { cardId } = req.params;
   Card.findByIdAndUpdate(
     cardId,
@@ -58,7 +58,7 @@ module.exports.likeCard = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.dislikeCard = (req, res) => {
+const dislikeCard = (req, res) => {
   const { cardId } = req.params;
   Card.findByIdAndUpdate(
     cardId,
@@ -72,4 +72,12 @@ module.exports.dislikeCard = (req, res) => {
       res.send({ data: card });
     })
     .catch(next);
+};
+
+module.exports = {
+  createCard,
+  getCards,
+  deleteCard,
+  likeCard,
+  dislikeCard,
 };
