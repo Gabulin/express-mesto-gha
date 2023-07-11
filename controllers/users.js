@@ -73,7 +73,7 @@ const getUser = (req, res, next) => {
       if (!user) {
         return next(new NotFoundError('Пользователь не найден'));
       }
-      return res.send({ data: user });
+      res.send({ data: user });
     })
     .catch(next);
 };
