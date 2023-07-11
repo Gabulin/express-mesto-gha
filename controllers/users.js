@@ -84,9 +84,9 @@ const updateProfile = (req, res, next) => {
     name: req.body.name,
     about: req.body.about,
   };
-  User.findByIdAndUpdate(_id, data, { new: true, runValidators: true })
+  return User.findByIdAndUpdate(_id, data, { new: true, runValidators: true })
     .then((user) => {
-      res.send({ data: user });
+      return res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
