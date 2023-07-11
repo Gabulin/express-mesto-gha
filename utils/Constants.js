@@ -1,18 +1,18 @@
-const validationErrorCode = 400;
-const notFoundErrorCode = 404;
-const defaultErrorCode = 500;
-const authErrorCode = 401;
-const registerErrorCode = 409;
-const forbiddenErrorCode = 403;
+const ERROR_NOT_FOUND = 404;
+const ERROR_INVALID = 400;
+const ERROR_SERVER = 500;
+const ERROR_AUTH = 401;
+const ERROR_REGISTER = 409;
+const ERROR_FORBIDDEN = 403;
 
-const JWT_KEY = "secretKey";
+const JWT_KEY = 'secretKey';
 
 module.exports = {
-  validationErrorCode,
-  notFoundErrorCode,
-  defaultErrorCode,
-  authErrorCode,
-  registerErrorCode,
-  forbiddenErrorCode,
+  ERROR_INVALID,
+  ERROR_NOT_FOUND,
+  ERROR_SERVER,
+  ERROR_AUTH,
+  ERROR_REGISTER,
   JWT_KEY,
+  ERROR_FORBIDDEN,
 };

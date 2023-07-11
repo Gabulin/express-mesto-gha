@@ -1,7 +1,7 @@
 const Card = require('../models/card');
 const InvalidError = require('../errors/InvalidError');
 const NotFoundError = require('../errors/NotFoundError');
-const ForbiddenError = require('../errors/ForbiddenError');
+const ForbiddenErr = require('../errors/ForbiddenErr');
 
 const createCard = (req, res, next) => {
   const newCard = {
@@ -11,6 +11,7 @@ const createCard = (req, res, next) => {
   };
   Card.create(newCard)
     .then((card) => res.send({ data: card }))
+    // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new InvalidError('Введены неверные данные'));
@@ -35,12 +36,12 @@ const deleteCard = (req, res, next) => {
       if (_id === card.owner.toString()) {
         return card.deleteOne()
           .then(() => res.send(card));
-      } return next(new ForbiddenError('У вас нет прав для удаления этой карточки'));
+      } return next(new ForbiddenErr('У вас нет прав для удаления этой карточки'));
     })
     .catch(next);
 };
 
-const likeCard = (req, res, next) => {
+const putLike = (req, res, next) => {
   const { cardId } = req.params;
   Card.findByIdAndUpdate(
     cardId,
@@ -56,7 +57,7 @@ const likeCard = (req, res, next) => {
     .catch(next);
 };
 
-const dislikeCard = (req, res, next) => {
+const deleteLike = (req, res, next) => {
   const { cardId } = req.params;
   Card.findByIdAndUpdate(
     cardId,
@@ -76,6 +77,6 @@ module.exports = {
   createCard,
   getCards,
   deleteCard,
-  likeCard,
-  dislikeCard,
+  putLike,
+  deleteLike,
 };

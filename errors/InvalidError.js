@@ -1,9 +1,9 @@
-const { validationErrorCode } = require('../utils/Constants');
+const { ERROR_INVALID } = require('../utils/constants');
 
 class InvalidError extends Error {
   constructor(message) {
     super(message);
-    this.statusCode = validationErrorCode;
+    this.statusCode = ERROR_INVALID;
   }
 }
 

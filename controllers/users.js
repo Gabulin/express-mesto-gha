@@ -4,7 +4,7 @@ const User = require('../models/user');
 const RegisterError = require('../errors/RegisterError');
 const NotFoundError = require('../errors/NotFoundError');
 const InvalidError = require('../errors/InvalidError');
-const { JWT_KEY } = require('../utils/Constants');
+const { JWT_KEY } = require('../utils/constants');
 
 const getUsers = (req, res, next) => {
   User.find({})
@@ -29,6 +29,7 @@ const createUser = (req, res, next) => {
       }),
     )
     .then((user) => res.send(user))
+    // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err.code === 11000) {
         return next(new RegisterError('Пользователь уже существует'));
@@ -57,6 +58,7 @@ const login = (req, res, next) => {
 const getUserById = (req, res, next) => {
   const { userId } = req.params;
   User.findById(userId)
+    // eslint-disable-next-line consistent-return
     .then((user) => {
       if (!user) {
         return next(new NotFoundError('Пользователь не найден'));
