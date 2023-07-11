@@ -50,7 +50,7 @@ const login = (req, res, next) => {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
       });
-      res.send({ token });
+      return res.send({ token });
     })
     .catch(next);
 };
@@ -85,10 +85,8 @@ const updateProfile = (req, res, next) => {
     name: req.body.name,
     about: req.body.about,
   };
-  User.findByIdAndUpdate(_id, data, { new: true, runValidators: true })
-    .then((user) => {
-      return res.send({ data: user });
-    })
+  return User.findByIdAndUpdate(_id, data, { new: true, runValidators: true })
+    .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new InvalidError('Введены некорректные данные'));
