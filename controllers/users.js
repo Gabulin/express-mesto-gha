@@ -1,6 +1,6 @@
-const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 const RegisterError = require('../errors/RegisterError');
 const NotFoundError = require('../errors/NotFoundError');
 const InvalidError = require('../errors/InvalidError');
@@ -8,8 +8,8 @@ const { JWT_KEY } = require('../utils/Constants');
 
 const getUsers = (req, res, next) => {
   User.find({})
-  .then((users) => res.send(users))
-  .catch(next);
+    .then((users) => res.send(users))
+    .catch(next);
 };
 
 const createUser = (req, res, next) => {
@@ -18,25 +18,25 @@ const createUser = (req, res, next) => {
   } = req.body;
 
   bcrypt
-  .hash(password, 10)
-  .then(
-    (hash) => User.create({
-      name,
-      about,
-      avatar,
-      email,
-      password: hash,
-    }),
-  )
-  .then((user) => res.send(user))
-  .catch((err) => {
-    if (err.code === 11000) {
-      return next(new RegisterError('Пользователь уже существует'));
-    }
-    if (err.name === 'ValidationError') {
-      return next(new InvalidError('Некорректные данные для создания пользователя'));
-    } next(err);
-  });
+    .hash(password, 10)
+    .then(
+      (hash) => User.create({
+        name,
+        about,
+        avatar,
+        email,
+        password: hash,
+      }),
+    )
+    .then((user) => res.send(user))
+    .catch((err) => {
+      if (err.code === 11000) {
+        return next(new RegisterError('Пользователь уже существует'));
+      }
+      if (err.name === 'ValidationError') {
+        return next(new InvalidError('Введены некорректные данные'));
+      } next(err);
+    });
 };
 
 const login = (req, res, next) => {
@@ -54,16 +54,16 @@ const login = (req, res, next) => {
     }).catch(next);
 };
 
-const getUserId = (req, res, next) => {
+const getUserById = (req, res, next) => {
   const { userId } = req.params;
   User.findById(userId)
-  .then((user) => {
-    if (!user) {
-      return next(new NotFoundError('Некорректные данные для пользователя'));
-    }
-    res.send({ data: user });
-  })
-  .catch(next);
+    .then((user) => {
+      if (!user) {
+        return next(new NotFoundError('Пользователь не найден'));
+      }
+      res.send({ data: user });
+    })
+    .catch(next);
 };
 
 const getUser = (req, res, next) => {
@@ -71,7 +71,7 @@ const getUser = (req, res, next) => {
   User.findById(_id)
     .then((user) => {
       if (!user) {
-        return next(new NotFoundError('Некорректные данные для пользователя'));
+        return next(new NotFoundError('Пользователь не найден'));
       }
       return res.send({ data: user });
     })
@@ -90,7 +90,7 @@ const updateProfile = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return next(new InvalidError('Некорректные данные для обновления'));
+        return next(new InvalidError('Введены некорректные данные'));
       }
       return next(err);
     });
@@ -103,7 +103,7 @@ const updateAvatar = (req, res, next) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return next(new InvalidError('Некорректные данные для ссылки'));
+        return next(new InvalidError('Неверная ссылка'));
       }
       return next(err);
     });
@@ -112,9 +112,9 @@ const updateAvatar = (req, res, next) => {
 module.exports = {
   getUsers,
   createUser,
-  login,
-  getUser,
-  getUserId,
+  getUserById,
   updateProfile,
   updateAvatar,
+  login,
+  getUser,
 };
