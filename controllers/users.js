@@ -54,7 +54,6 @@ const login = (req, res, next) => {
     })
     .catch(next);
 };
-
 const getUserById = (req, res, next) => {
   const { userId } = req.params;
   User.findById(userId)
@@ -62,10 +61,11 @@ const getUserById = (req, res, next) => {
       if (!user) {
         return next(new NotFoundError('Пользователь не найден'));
       }
-      res.send({ data: user });
+      return res.send({ data: user });
     })
     .catch(next);
 };
+
 
 const getUser = (req, res, next) => {
   const { _id } = req.user;
@@ -74,10 +74,11 @@ const getUser = (req, res, next) => {
       if (!user) {
         return next(new NotFoundError('Пользователь не найден'));
       }
-      res.send({ data: user });
+      return res.send({ data: user });
     })
     .catch(next);
 };
+
 
 const updateProfile = (req, res, next) => {
   const { _id } = req.user;
