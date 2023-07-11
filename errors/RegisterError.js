@@ -1,9 +1,9 @@
-const { ERROR_REGISTER } = require("../utils/constants");
+const { registerErrorCode } = require('../utils/Constants');
 
 class RegisterError extends Error {
   constructor(message) {
     super(message);
-    this.statusCode = ERROR_REGISTER;
+    this.statusCode = registerErrorCode;
   }
 }
 

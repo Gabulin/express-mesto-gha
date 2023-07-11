@@ -1,10 +1,10 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const User = require("../models/user");
-const RegisterError = require("../errors/RegisterError");
-const NotFoundError = require("../errors/NotFoundError");
-const InvalidError = require("../errors/InvalidError");
-const { JWT_KEY } = require("../utils/constants");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/user');
+const RegisterError = require('../errors/RegisterError');
+const NotFoundError = require('../errors/NotFoundError');
+const InvalidError = require('../errors/InvalidError');
+const { JWT_KEY } = require('../utils/Constants');
 
 const getUsers = (req, res, next) => {
   User.find({})
@@ -13,29 +13,29 @@ const getUsers = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
 
   bcrypt
     .hash(password, 10)
-    .then((hash) =>
-      User.create({
+    .then(
+      (hash) => User.create({
         name,
         about,
         avatar,
         email,
         password: hash,
-      })
+      }),
     )
     .then((user) => res.send(user))
-    // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err.code === 11000) {
-        return next(new RegisterError("Пользователь уже существует"));
+        return next(new RegisterError('Пользователь уже существует'));
       }
-      if (err.name === "ValidationError") {
-        return next(new InvalidError("Введены некорректные данные"));
-      }
-      next(err);
+      if (err.name === 'ValidationError') {
+        return next(new InvalidError('Введены некорректные данные'));
+      } next(err);
     });
 };
 
@@ -45,25 +45,21 @@ const login = (req, res, next) => {
   User.findByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_KEY, {
-        expiresIn: "7d",
+        expiresIn: '7d',
       });
-      res
-        .cookie("jwt", token, {
-          maxAge: 3600000 * 24 * 7,
-          httpOnly: true,
-        })
-        .send({ token });
-    })
-    .catch(next);
+      res.cookie('jwt', token, {
+        maxAge: 3600000 * 24 * 7,
+        httpOnly: true,
+      }).send({ token });
+    }).catch(next);
 };
 
 const getUserById = (req, res, next) => {
   const { userId } = req.params;
   User.findById(userId)
-    // eslint-disable-next-line consistent-return
     .then((user) => {
       if (!user) {
-        return next(new NotFoundError("Пользователь не найден"));
+        return next(new NotFoundError('Пользователь не найден'));
       }
       res.send({ data: user });
     })
@@ -75,7 +71,7 @@ const getUser = (req, res, next) => {
   User.findById(_id)
     .then((user) => {
       if (!user) {
-        return next(new NotFoundError("Пользователь не найден"));
+        return next(new NotFoundError('Пользователь не найден'));
       }
       return res.send({ data: user });
     })
@@ -93,8 +89,8 @@ const updateProfile = (req, res, next) => {
       res.send({ data: user });
     })
     .catch((err) => {
-      if (err.name === "ValidationError") {
-        return next(new InvalidError("Введены некорректные данные"));
+      if (err.name === 'ValidationError') {
+        return next(new InvalidError('Введены некорректные данные'));
       }
       return next(err);
     });
@@ -106,8 +102,8 @@ const updateAvatar = (req, res, next) => {
   User.findByIdAndUpdate(_id, data, { runValidators: true, new: true })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      if (err.name === "ValidationError") {
-        return next(new InvalidError("Неверная ссылка"));
+      if (err.name === 'ValidationError') {
+        return next(new InvalidError('Неверная ссылка'));
       }
       return next(err);
     });
