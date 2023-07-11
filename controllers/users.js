@@ -49,7 +49,8 @@ const login = (req, res, next) => {
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-      }).send({ token });
+      });
+      res.send({ token });
     })
     .catch(next);
 };
@@ -84,7 +85,7 @@ const updateProfile = (req, res, next) => {
     name: req.body.name,
     about: req.body.about,
   };
-  return User.findByIdAndUpdate(_id, data, { new: true, runValidators: true })
+  User.findByIdAndUpdate(_id, data, { new: true, runValidators: true })
     .then((user) => {
       return res.send({ data: user });
     })

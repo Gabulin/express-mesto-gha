@@ -18,7 +18,7 @@ cardRouter.delete(
       cardId: Joi.string().length(24).hex(),
     }),
   }),
-  deleteCard
+  deleteCard,
 );
 
 cardRouter.post(
@@ -29,11 +29,11 @@ cardRouter.post(
       link: Joi.string()
         .required()
         .pattern(
-          /^https?:\/\/(?:www\.)?[a-zA-Z0-9а-яА-Я-._~:/?#[\]@!$&'()*+,;=]+/im
+          /^https?:\/\/(?:www\.)?[a-zA-Z0-9а-яА-Я-._~:/?#[\]@!$&'()*+,;=]+/im,
         ),
     }),
   }),
-  createCard
+  createCard,
 );
 
 cardRouter.put(
@@ -43,7 +43,7 @@ cardRouter.put(
       cardId: Joi.string().length(24).hex(),
     }),
   }),
-  likeCard
+  likeCard,
 );
 
 cardRouter.delete(
@@ -53,7 +53,7 @@ cardRouter.delete(
       cardId: Joi.string().length(24).hex(),
     }),
   }),
-  dislikeCard
+  dislikeCard,
 );
 
 module.exports = cardRouter;
