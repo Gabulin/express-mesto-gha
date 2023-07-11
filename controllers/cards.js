@@ -1,7 +1,7 @@
-const Card = require('../models/card');
-const InvalidError = require('../errors/InvalidError');
-const NotFoundError = require('../errors/NotFoundError');
-const ForbiddenErr = require('../errors/ForbiddenErr');
+const Card = require("../models/card");
+const InvalidError = require("../errors/InvalidError");
+const NotFoundError = require("../errors/NotFoundError");
+const ForbiddenErr = require("../errors/ForbiddenErr");
 
 const createCard = (req, res, next) => {
   const newCard = {
@@ -13,9 +13,10 @@ const createCard = (req, res, next) => {
     .then((card) => res.send({ data: card }))
     // eslint-disable-next-line consistent-return
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return next(new InvalidError('Введены неверные данные'));
-      } next(err);
+      if (err.name === "ValidationError") {
+        return next(new InvalidError("Введены неверные данные"));
+      }
+      next(err);
     });
 };
 
@@ -31,12 +32,14 @@ const deleteCard = (req, res, next) => {
   Card.findById(cardId)
     .then((card) => {
       if (!card) {
-        return next(new NotFoundError('Данные не найдены'));
+        return next(new NotFoundError("Данные не найдены"));
       }
       if (_id === card.owner.toString()) {
-        return card.deleteOne()
-          .then(() => res.send(card));
-      } return next(new ForbiddenErr('У вас нет прав для удаления этой карточки'));
+        return card.deleteOne().then(() => res.send(card));
+      }
+      return next(
+        new ForbiddenErr("У вас нет прав для удаления этой карточки")
+      );
     })
     .catch(next);
 };
@@ -46,11 +49,11 @@ const putLike = (req, res, next) => {
   Card.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true },
+    { new: true }
   )
     .then((card) => {
       if (!card) {
-        throw new NotFoundError('Данные не найдены');
+        throw new NotFoundError("Данные не найдены");
       }
       res.send({ data: card });
     })
@@ -62,11 +65,11 @@ const deleteLike = (req, res, next) => {
   Card.findByIdAndUpdate(
     cardId,
     { $pull: { likes: req.user._id } },
-    { new: true },
+    { new: true }
   )
     .then((card) => {
       if (!card) {
-        throw new NotFoundError('Данные не найдены');
+        throw new NotFoundError("Данные не найдены");
       }
       res.send({ data: card });
     })

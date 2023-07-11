@@ -1,4 +1,4 @@
-const { ERROR_REGISTER } = require('../utils/constants');
+const { ERROR_REGISTER } = require("../utils/constants");
 
 class RegisterError extends Error {
   constructor(message) {

@@ -1,4 +1,4 @@
-const { ERROR_INVALID } = require('../utils/constants');
+const { ERROR_INVALID } = require("../utils/constants");
 
 class InvalidError extends Error {
   constructor(message) {
