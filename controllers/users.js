@@ -19,15 +19,13 @@ const createUser = (req, res, next) => {
 
   bcrypt
     .hash(password, 10)
-    .then(
-      (hash) => User.create({
-        name,
-        about,
-        avatar,
-        email,
-        password: hash,
-      }),
-    )
+    .then((hash) => User.create({
+      name,
+      about,
+      avatar,
+      email,
+      password: hash,
+    }))
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.code === 11000) {
@@ -35,7 +33,8 @@ const createUser = (req, res, next) => {
       }
       if (err.name === 'ValidationError') {
         return next(new InvalidError('Введены некорректные данные'));
-      } next(err);
+      }
+      return next(err);
     });
 };
 
@@ -51,7 +50,8 @@ const login = (req, res, next) => {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
       }).send({ token });
-    }).catch(next);
+    })
+    .catch(next);
 };
 
 const getUserById = (req, res, next) => {

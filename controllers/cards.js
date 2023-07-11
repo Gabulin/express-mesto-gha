@@ -14,7 +14,8 @@ const createCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new InvalidError('Введены неверные данные'));
-      } next(err);
+      }
+      return next(err);
     });
 };
 
@@ -35,7 +36,8 @@ const deleteCard = (req, res, next) => {
       if (_id === card.owner.toString()) {
         return card.deleteOne()
           .then(() => res.send(card));
-      } return next(new ForbiddenError('У вас нет прав для удаления этой карточки'));
+      }
+      return next(new ForbiddenError('У вас нет прав для удаления этой карточки'));
     })
     .catch(next);
 };

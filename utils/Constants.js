@@ -5,7 +5,7 @@ const authErrorCode = 401;
 const registerErrorCode = 409;
 const forbiddenErrorCode = 403;
 
-const JWT_KEY = "secretKey";
+const JWT_KEY = 'secretKey';
 
 module.exports = {
   validationErrorCode,

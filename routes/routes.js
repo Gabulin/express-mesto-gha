@@ -1,13 +1,13 @@
-const routes = require("express").Router();
-const { celebrate, Joi } = require("celebrate");
-const NotFoundError = require("../errors/NotFoundError");
-const userRouter = require("./users");
-const cardRouter = require("./cards");
-const auth = require("../middlewares/auth");
-const { login, createUser } = require("../controllers/users");
+const routes = require('express').Router();
+const { celebrate, Joi } = require('celebrate');
+const NotFoundError = require('../errors/NotFoundError');
+const userRouter = require('./users');
+const cardRouter = require('./cards');
+const auth = require('../middlewares/auth');
+const { login, createUser } = require('../controllers/users');
 
 routes.post(
-  "/signin",
+  '/signin',
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
@@ -18,7 +18,7 @@ routes.post(
 );
 
 routes.post(
-  "/signup",
+  '/signup',
   celebrate({
     body: Joi.object().keys({
       name: Joi.string().min(2).max(30),
@@ -35,11 +35,11 @@ routes.post(
 
 routes.use(auth);
 
-routes.use("/users", userRouter);
-routes.use("/cards", cardRouter);
+routes.use('/users', userRouter);
+routes.use('/cards', cardRouter);
 
 routes.use(() => {
-  throw new NotFoundError("Страница не найдена");
+  throw new NotFoundError('Страница не найдена');
 });
 
 module.exports = routes;
