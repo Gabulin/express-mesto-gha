@@ -66,7 +66,6 @@ const getUserById = (req, res, next) => {
     .catch(next);
 };
 
-
 const getUser = (req, res, next) => {
   const { _id } = req.user;
   User.findById(_id)
@@ -78,7 +77,6 @@ const getUser = (req, res, next) => {
     })
     .catch(next);
 };
-
 
 const updateProfile = (req, res, next) => {
   const { _id } = req.user;
