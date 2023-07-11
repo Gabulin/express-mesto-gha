@@ -32,7 +32,7 @@ const createUser = (req, res, next) => {
         return next(new RegisterError('Пользователь уже существует'));
       }
       if (err.name === 'ValidationError') {
-        return next(new InvalidError('Введены некорректные данные'));
+        return next(new InvalidError('Неккоректные данные'));
       }
       return next(err);
     });
@@ -88,7 +88,7 @@ const updateProfile = (req, res, next) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return next(new InvalidError('Введены некорректные данные'));
+        return next(new InvalidError('Неккоректные данные'));
       }
       return next(err);
     });
@@ -101,7 +101,7 @@ const updateAvatar = (req, res, next) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return next(new InvalidError('Неверная ссылка'));
+        return next(new InvalidError('Неккоректные данные ссылки'));
       }
       return next(err);
     });

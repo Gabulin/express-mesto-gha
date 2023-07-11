@@ -13,7 +13,7 @@ const createCard = (req, res, next) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return next(new InvalidError('Введены неверные данные'));
+        return next(new InvalidError('Неккоректные данные'));
       }
       return next(err);
     });
@@ -31,13 +31,13 @@ const deleteCard = (req, res, next) => {
   Card.findById(cardId)
     .then((card) => {
       if (!card) {
-        return next(new NotFoundError('Данные не найдены'));
+        return next(new NotFoundError('Неккоректные данные'));
       }
       if (_id === card.owner.toString()) {
         return card.deleteOne()
           .then(() => res.send(card));
       }
-      return next(new ForbiddenError('У вас нет прав для удаления этой карточки'));
+      return next(new ForbiddenError('Неккоректные данные для удаления'));
     })
     .catch(next);
 };
