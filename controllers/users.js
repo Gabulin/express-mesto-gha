@@ -26,7 +26,7 @@ const createUser = (req, res, next) => {
       email,
       password: hash,
     }))
-    .then((user) => res.send(user))
+    .then((user) => res.status(201).send(user))
     .catch((err) => {
       if (err.code === 11000) {
         return next(new RegisterError('Пользователь уже существует'));
